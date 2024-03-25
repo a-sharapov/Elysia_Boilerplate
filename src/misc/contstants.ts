@@ -9,6 +9,7 @@ export const STATUS_CODES = {
   FORBIDDEN: 403,
   NOT_FOUND: 404,
   INTERNAL_SERVER_ERROR: 500,
+  UNKNOWN: 400,
 } as const
 
 export const API_TAGS = {
@@ -20,12 +21,4 @@ export const API_TAGS = {
 export const ENDPOINTS_DESCRIPTORS = {
   MAIN: 'Health-check endpoint',
   API_ROOT: 'Root API endpoint (redirects to current API version)',
-} as const
-
-export const PATTERNS = {
-  email:
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-  username: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
-  jwtToken: /^[a-zA-Z0-9-._~+/]+=*$/,
 } as const

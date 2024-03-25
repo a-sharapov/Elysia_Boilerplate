@@ -10,18 +10,24 @@ import { Elysia } from 'elysia'
 
 const authDummyHandler = <T extends Record<string, any>>({
   request: { method },
-  authService,
+  // authService,
+  body,
+  params,
+  query,
   store,
-  set,
+  // set,
 }: T) => {
   // some auth logic
 
-  console.log(authService, store, set)
-  authService.login?.()
+  console.table(body)
+  console.table(params)
+  console.table(store)
+  console.table(query)
+
   // some auth logic
 
   return {
-    status: Symbol.keyFor(STATUSES.IDLE),
+    status: Symbol.keyFor(STATUSES.COMPLETED),
     message: `Auth dummy ${method} handler`,
   }
 }
@@ -31,10 +37,13 @@ const authLogoutHadler = authDummyHandler
 const authStatusHandler = authDummyHandler
 const authLoginHandler = authDummyHandler
 
-export const authController = new Elysia({ prefix: '/auth' })
+export const authController = new Elysia({
+  name: 'Controller.Auth',
+  prefix: '/auth',
+})
   .state('authState', {})
   .decorate('authService', authService)
-  .post('/', authLoginHandler, authLoginValidationGuard)
-  .delete('/', authLogoutHadler, authLogoutValidationGuard)
-  .patch('/', authRefreshHandler, authPatchValidationGuard)
   .get('/', authStatusHandler, authStatusValidationGuard)
+  .post('/', authLoginHandler, authLoginValidationGuard)
+  .patch('/', authRefreshHandler, authPatchValidationGuard)
+  .delete('/', authLogoutHadler, authLogoutValidationGuard)

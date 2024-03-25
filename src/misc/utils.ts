@@ -13,12 +13,16 @@ export const pipe =
       payload
     )
 
-export const mapErrors = <T extends Record<string, any>>(
-  errors: T
-): Record<string, string>[] =>
-  Object.keys(errors).map((key) => ({
-    [key]: errors[key].error,
-  }))
+export const isEmptyObject = (obj: Record<string, any>): boolean =>
+  Object.keys(obj).length === 0
+
+export const mapErrors = <T extends Record<string, any>>(errors: T) =>
+  Object.fromEntries(
+    Object.keys(errors).map((key) => [
+      key,
+      errors[key].message || errors[key].error,
+    ])
+  )
 
 export const fallbackHandler = <T extends Record<string, any>>({
   code,
@@ -27,12 +31,18 @@ export const fallbackHandler = <T extends Record<string, any>>({
 }: T): object => {
   set.status = STATUS_CODES[code as keyof typeof STATUS_CODES]
 
-  return {
-    status: Symbol.keyFor(STATUSES.INTERRUPTED),
-    message: DICTIONARY[code as keyof typeof DICTIONARY] ?? DICTIONARY.UNKNOWN,
-    reason:
+  const reasonAssets = {
+    description: error?.validator?.schema?.description,
+    examples: error?.validator?.schema?.examples,
+    errors:
       error?.validator?.schema?.properties &&
       mapErrors(error.validator.schema.properties),
+  }
+
+  return {
+    status: Symbol.keyFor(STATUSES.INTERRUPTED),
+    message: DICTIONARY[code as keyof typeof DICTIONARY] ?? error.message,
+    ...reasonAssets,
   }
 }
 

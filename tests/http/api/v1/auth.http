@@ -1,0 +1,19 @@
+GET http://localhost:5757/api/v1/auth HTTP/1.1
+
+###
+
+POST http://localhost:5757/api/v1/auth HTTP/1.1
+content-type: application/json
+
+{
+  "login": "1111@e",
+  "password": "12_@df13@!!test"
+}
+
+###
+
+PATCH http://localhost:5757/api/v1/auth HTTP/1.1
+
+###
+
+DELETE http://localhost:5757/api/v1/auth?t=someTestToken HTTP/1.1

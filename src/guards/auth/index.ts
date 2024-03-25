@@ -1,4 +1,3 @@
-import { PATTERNS } from '@lib/misc/contstants'
 import { t } from 'elysia'
 import { DICTIONARY } from './dictionary'
 
@@ -9,24 +8,18 @@ export const authLoginValidationGuard = {
     {
       login: t.String({
         minLength: 3,
-        format: 'regex',
-        pattern: `^${PATTERNS.username.source}$|${PATTERNS.email.source}$`,
         required: true,
-        error: `${DICTIONARY.ERRORS.GENERIC} ${DICTIONARY.ERRORS.REQUIRED}`,
       }),
       password: t.String({
         minLength: 8,
-        format: 'regex',
-        pattern: PATTERNS.password.source,
         required: true,
-        error: `${DICTIONARY.ERRORS.GENERIC} ${DICTIONARY.ERRORS.REQUIRED}`,
       }),
     },
     {
-      description: DICTIONARY.DESCRIPTIONS.EXPECTED_USERNAME_AND_PASSWORD,
+      description: DICTIONARY.EXPECTED_USERNAME_AND_PASSWORD,
       examples: {
-        login: DICTIONARY.DESCRIPTIONS.USERNAME_OR_EMAIL,
-        password: DICTIONARY.DESCRIPTIONS.PASSWORD,
+        login: DICTIONARY.USERNAME_OR_EMAIL,
+        password: DICTIONARY.PASSWORD,
       },
     }
   ),
@@ -41,13 +34,10 @@ export const authLogoutValidationGuard = {
     {
       t: t.String({
         required: true,
-        format: 'regex',
-        pattern: PATTERNS.jwtToken.source,
-        error: DICTIONARY.ERRORS.INVALID_REFRESH_TOKEN,
       }),
     },
     {
-      description: DICTIONARY.DESCRIPTIONS.EXPECTED_REFRESH_TOKEN,
+      description: DICTIONARY.EXPECTED_REFRESH_TOKEN,
     }
   ),
   detail: {
@@ -63,6 +53,7 @@ export const authPatchValidationGuard = {
     tags,
   },
 }
+
 export const authStatusValidationGuard = {
   detail: {
     summary: 'Get current authorization status',

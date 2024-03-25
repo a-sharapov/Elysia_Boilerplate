@@ -12,6 +12,7 @@ import {
 import { createMotd, fallbackHandler, pipe } from '@lib/misc/utils'
 import { routes } from '@lib/routes'
 import { Elysia } from 'elysia'
+import { createRepository } from './repository'
 
 const { secret, port, version, healthyTpl, tokenTTL, swaggerUrl } = config
 const baseUrl = `/api/v${version}`
@@ -21,7 +22,7 @@ const tags = Object.keys(API_TAGS).map((key) => ({
   description: API_TAGS[key as keyof typeof API_TAGS] as string,
 }))
 
-const app = new Elysia()
+const app = new Elysia({ name: 'MainInstance' })
   .onError(fallbackHandler)
   .use(
     cors({
@@ -38,6 +39,7 @@ const app = new Elysia()
     })
   )
   .use(bearer())
+  .decorate('db', createRepository())
   .get('/', () => Bun.file(healthyTpl), {
     detail: {
       description: ENDPOINTS_DESCRIPTORS.MAIN,
