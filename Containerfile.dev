@@ -1,0 +1,11 @@
+FROM oven/bun
+WORKDIR /var/www/backend
+COPY package.json .
+COPY bun.lockb .
+RUN bun install
+COPY src src
+COPY public public
+COPY tsconfig.json .
+ENV NODE_ENV development
+CMD ["bun", "src/index.ts"]
+EXPOSE 5757

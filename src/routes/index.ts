@@ -1,5 +1,8 @@
-import Elysia from "elysia";
+import { authController } from '@lib/controllers/auth'
+import Elysia from 'elysia'
 
-export const routes = new Elysia();
+export const routes = new Elysia()
 
-export type Routes = typeof routes;
+routes.use(authController)
+
+export type Routes = typeof routes
