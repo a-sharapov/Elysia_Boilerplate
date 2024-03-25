@@ -1,5 +1,5 @@
 import { authController } from '@lib/controllers/auth'
-import Elysia from 'elysia'
+import { Elysia } from 'elysia'
 
 export const routes = new Elysia()
 
